@@ -14,7 +14,11 @@ func ExecuteReqeust() (*http.Response, error) {
 		log.Fatalln(err)
 	}
 	if resp.StatusCode == http.StatusOK {
-		fmt.Printf("Got 200 Response %v", resp)
+		fmt.Println("Completed Business Logic")
+	}
+
+	if resp.StatusCode == http.StatusBadRequest {
+		fmt.Println("Failed Business Logic")
 	}
 	return resp, nil
 
