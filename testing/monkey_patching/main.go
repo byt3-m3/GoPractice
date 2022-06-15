@@ -8,8 +8,8 @@ import (
 
 var HTTPGetter = http.Get
 
-func ExecuteReqeust() (*http.Response, error) {
-	resp, err := HTTPGetter("google.com")
+func ExecuteReqeust(url string) (*http.Response, error) {
+	resp, err := HTTPGetter(url)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -25,7 +25,7 @@ func ExecuteReqeust() (*http.Response, error) {
 }
 
 func main() {
-	resp, err := ExecuteReqeust()
+	resp, err := ExecuteReqeust("google.com")
 	if err != nil {
 		log.Fatalln(err)
 	}

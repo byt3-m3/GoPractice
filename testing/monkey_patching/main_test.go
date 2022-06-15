@@ -22,7 +22,7 @@ func TestBasicTest(t *testing.T) {
 	// Overshadows the package variable with Mock HTTP Getter.
 	HTTPGetter = mockHttpGetterSuccess
 
-	resp, err := ExecuteReqeust()
+	resp, err := ExecuteReqeust("fakedomain.com")
 	if err != nil {
 		t.Fail()
 	}
@@ -35,7 +35,7 @@ func TestBasicTest(t *testing.T) {
 func TestBasicTestStatusBadRequest(t *testing.T) {
 	HTTPGetter = mockHttpGetterBadRequest
 
-	resp, err := ExecuteReqeust()
+	resp, err := ExecuteReqeust("fakedomain.com")
 	if err != nil {
 		t.Fail()
 	}
