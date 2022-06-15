@@ -6,11 +6,9 @@ import (
 	"net/http"
 )
 
-type httpGetter func(url string) (resp *http.Response, err error)
-
 var HTTPGetter = http.Get
 
-func ExecuteReqeust() {
+func ExecuteReqeust() (*http.Response, error) {
 	resp, err := HTTPGetter("google.com")
 	if err != nil {
 		log.Fatalln(err)
@@ -18,9 +16,14 @@ func ExecuteReqeust() {
 	if resp.StatusCode == http.StatusOK {
 		fmt.Printf("Got 200 Response %v", resp)
 	}
+	return resp, nil
 
 }
 
 func main() {
-	ExecuteReqeust()
+	resp, err := ExecuteReqeust()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Printf("%v", resp)
 }

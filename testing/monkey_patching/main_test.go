@@ -6,13 +6,41 @@ import (
 	"testing"
 )
 
-func mockHttpGetter(url string) (resp *http.Response, err error) {
+func mockHttpGetterSuccess(url string) (resp *http.Response, err error) {
 	fmt.Println("Invoking Mock")
+	// Do Custom Things....
 	return &http.Response{StatusCode: http.StatusOK}, err
 }
 
-func TestBasicTest(t *testing.T) {
-	HTTPGetter = mockHttpGetter
+func mockHttpGetterBadRequest(url string) (resp *http.Response, err error) {
+	fmt.Println("Invoking Mock")
+	// Do Custom Things....
+	return &http.Response{StatusCode: http.StatusBadRequest}, err
+}
 
-	ExecuteReqeust()
+func TestBasicTest(t *testing.T) {
+	// Overshadows the package variable with Mock HTTP Getter.
+	HTTPGetter = mockHttpGetterSuccess
+
+	resp, err := ExecuteReqeust()
+	if err != nil {
+		t.Fail()
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		t.Fail()
+	}
+}
+
+func TestBasicTestStatusBadRequest(t *testing.T) {
+	HTTPGetter = mockHttpGetterBadRequest
+
+	resp, err := ExecuteReqeust()
+	if err != nil {
+		t.Fail()
+	}
+	if resp.StatusCode != http.StatusBadRequest {
+		t.Fail()
+	}
+
 }
