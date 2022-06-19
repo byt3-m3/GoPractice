@@ -14,8 +14,7 @@ type TestMock struct {
 }
 
 func (m *TestMock) Get(url string) (*http.Response, error) {
-	//m.Called(url)
-	//args := m.Called(url)
+	// This Mocks using type assertions,
 	args := m.Called(url)
 	fmt.Println("Mock Invoked", url)
 	return args.Get(0).(*http.Response), nil
@@ -45,11 +44,11 @@ func TestGetRequest(t *testing.T) {
 	for _, testCase := range testCases {
 		log.Printf("Running %s", testCase.name)
 
-		// Set Up
+		// Set Up TestEnv
 		mockObj := new(TestMock)
-		HTTPGetter = mockObj.Get
+		HTTPGetter = mockObj.Get // Monkey-Patches HttpGetter
 
-		// Test Expectations
+		// SetUp Expectations
 		mockObj.On("Get", testCase.url).Return(testCase.mockResponse)
 
 		// Invocation
@@ -58,6 +57,8 @@ func TestGetRequest(t *testing.T) {
 			log.Println(err)
 
 		}
+
+		// Validation
 		assert.Equal(t, resp, testCase.mockResponse)
 		assert.Equal(t, 1, len(mockObj.Calls))
 	}
