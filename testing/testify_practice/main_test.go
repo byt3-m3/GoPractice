@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"log"
 	"net/http"
@@ -14,21 +15,51 @@ type TestMock struct {
 
 func (m *TestMock) Get(url string) (*http.Response, error) {
 	//m.Called(url)
+	//args := m.Called(url)
 	args := m.Called(url)
 	fmt.Println("Mock Invoked", url)
-	m.Called()
-	return args.Get(0).(*http.Response), args.Error(0)
+	return args.Get(0).(*http.Response), nil
 }
 
 func TestGetRequest(t *testing.T) {
-	mockObj := new(TestMock)
-	//HTTPGetter = mockObj.Get
-	mockObj.On("Get", "https://google.com").Return(&http.Response{StatusCode: http.StatusOK})
-	resp, err := mockObj.Get("https://google.com")
-	if err != nil {
-		log.Fatal(err)
 
+	type (
+		TestCase struct {
+			name         string
+			url          string
+			mockResponse *http.Response
+		}
+	)
+
+	testCases := []TestCase{
+		{"Basic Google TestCase",
+			"https://google.com",
+			&http.Response{StatusCode: http.StatusOK},
+		},
+		{"Bad Domain TestCase",
+			"https://baddomain.com",
+			&http.Response{StatusCode: http.StatusBadRequest},
+		},
 	}
-	fmt.Println(resp)
-	fmt.Println(mockObj.Calls)
+
+	for _, testCase := range testCases {
+		log.Printf("Running %s", testCase.name)
+
+		// Set Up
+		mockObj := new(TestMock)
+		HTTPGetter = mockObj.Get
+
+		// Test Expectations
+		mockObj.On("Get", testCase.url).Return(testCase.mockResponse)
+
+		// Invocation
+		resp, err := GetRequest(testCase.url)
+		if err != nil {
+			log.Println(err)
+
+		}
+		assert.Equal(t, resp, testCase.mockResponse)
+		assert.Equal(t, 1, len(mockObj.Calls))
+	}
+
 }
