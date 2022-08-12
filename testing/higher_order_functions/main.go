@@ -8,7 +8,7 @@ import (
 
 type httpGetter func(url string) (resp *http.Response, err error)
 
-func ExecuteReqeust(getter httpGetter) {
+func ExecuteRequest(getter httpGetter) {
 	resp, err := getter("google.com")
 	if err != nil {
 		log.Fatalln(err)
@@ -20,5 +20,5 @@ func ExecuteReqeust(getter httpGetter) {
 }
 
 func main() {
-	ExecuteReqeust(http.Get)
+	ExecuteRequest(http.Get)
 }

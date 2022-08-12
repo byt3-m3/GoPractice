@@ -13,5 +13,5 @@ func mockHttpGetter(url string) (resp *http.Response, err error) {
 
 func TestBasicTest(t *testing.T) {
 
-	ExecuteReqeust(mockHttpGetter)
+	ExecuteRequest(mockHttpGetter)
 }

@@ -5,15 +5,15 @@ import (
 	"testing"
 )
 
-type mockReader struct {
+type mockReaderStub struct {
 }
 
-func (r mockReader) ReadFile(string string) ([]byte, error) {
+func (r mockReaderStub) ReadFile(string string) ([]byte, error) {
 	return []byte("TEST_DATA"), nil
 }
 
 func TestReadFile(t *testing.T) {
-	var mReader mockReader
+	var mReader mockReaderStub
 
 	data := GetFile(mReader, "fakeFile")
 
