@@ -1,0 +1,18 @@
+{
+  "name": "test scenario",
+  "steps": [{
+      "name": "Step 1",
+      "validation_steps": [
+        {
+          "type": "question_answer",
+          "question": "What is your name?",
+          "answer": "courtney"
+        },
+        {
+          "type": "ssh_command",
+          "command": "show ip route",
+          "expectedResult": "0.0.0.0/0"
+        }
+      ]
+  }]
+}
