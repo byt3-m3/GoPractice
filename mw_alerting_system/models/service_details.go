@@ -58,3 +58,25 @@ func (s *ServiceDetails) GetSourceContext(source AlertType) *DeployContext {
 func (s *ServiceDetails) GetDeployContextMap() map[AlertType]DeployContext {
 	return s.deployContextMap
 }
+
+func (s *ServiceDetails) HasAlerts(alertType AlertType) bool {
+	switch alertType {
+	case AlertTypePrometheus:
+		if len(s.PromAlerts) > 0 {
+			return true
+		}
+
+	case AlertTypeGCP:
+		if len(s.GCPAlerts) > 0 {
+			return true
+		}
+
+	case AlertTypeOpsGenie:
+		if len(s.OpsGenieAlerts) > 0 {
+			return true
+		}
+
+	}
+
+	return false
+}

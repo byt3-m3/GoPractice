@@ -2,7 +2,9 @@ package managers
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/handlers"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/middleware"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/models"
@@ -398,8 +400,10 @@ func TestAlertManager_Deploy(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			bytes, err := json.Marshal(&tc.args.serviceDetails)
+			fmt.Println(string(bytes))
 
-			err := tc.manager.Deploy(tc.args.ctx, tc.args.serviceDetails, tc.args.handlers...)
+			err = tc.manager.Deploy(tc.args.ctx, tc.args.serviceDetails, tc.args.handlers...)
 			if tc.wantErr {
 				assert.Error(t, err)
 			} else {
