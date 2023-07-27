@@ -15,7 +15,6 @@ var (
 		Regions: []string{"us-central1", "us-east4"},
 		PromAlerts: []*models.Alert{
 			models.NewPrometheusAlert(models.WithTestData()),
-			//models.NewGCPAlert(models.WithTestData()),
 		},
 		GCPAlerts: []*models.Alert{
 			models.NewGCPAlert(models.WithTestData()),
