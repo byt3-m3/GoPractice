@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  build:
+  test_runner:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
