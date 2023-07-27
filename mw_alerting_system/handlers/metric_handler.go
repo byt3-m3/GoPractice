@@ -11,9 +11,6 @@ var MetricHandler DeployHandler = func(ctx context.Context, input DeployHandlerI
 		if deployContext.IsComplete && deployContext.IsSuccess {
 			log.Println("metrics success", source)
 
-		} else {
-			log.Println("metrics failure", source)
-
 		}
 	}
 

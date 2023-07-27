@@ -2,6 +2,7 @@ package managers
 
 import (
 	"context"
+	"errors"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/handlers"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/middleware"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/models"
@@ -9,6 +10,13 @@ import (
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/test_utils"
 	"github.com/stretchr/testify/assert"
 	"testing"
+)
+
+var (
+	testErrorHandler handlers.DeployHandler = func(ctx context.Context, input handlers.DeployHandlerInput) error {
+
+		return errors.New("encountered error")
+	}
 )
 
 func TestAlertManager_DeployV3(t *testing.T) {
@@ -29,6 +37,31 @@ func TestAlertManager_DeployV3(t *testing.T) {
 	}
 
 	testCases := []testCase{
+
+		{
+			wantErr: true,
+			name:    "test when handler fails alerts",
+			args: args{
+				ctx: context.Background(),
+				serviceDetails: models.NewServiceDetails(&models.NewServiceDetailsInput{
+					Name:           test_utils.TestServiceName,
+					Env:            test_utils.TestEnvStaging,
+					Regions:        test_utils.TestRegions,
+					GCPAlerts:      nil,
+					PromAlerts:     test_utils.TestPromAlerts,
+					OpsGenieAlerts: nil,
+				}),
+				handler: testErrorHandler,
+				middlewares: []middleware.Middleware{
+					middleware.ValidateInfraspecMiddleware,
+					middleware.VerifyDirectoryMiddleware,
+				},
+				postProcessors: []post_processors.PostProcessor{
+					post_processors.LoggingPostProcessor,
+				},
+			},
+			manager: NewAlertManager(),
+		},
 
 		{
 			wantErr: false,
@@ -135,6 +168,27 @@ func TestAlertManager_DeployV2(t *testing.T) {
 	}
 
 	testCases := []testCase{
+		{
+			wantErr: true,
+			name:    "test when handler fails",
+			args: args{
+				ctx: context.Background(),
+				serviceDetails: models.NewServiceDetails(&models.NewServiceDetailsInput{
+					Name:           test_utils.TestServiceName,
+					Env:            test_utils.TestEnvStaging,
+					Regions:        test_utils.TestRegions,
+					GCPAlerts:      nil,
+					PromAlerts:     test_utils.TestPromAlerts,
+					OpsGenieAlerts: nil,
+				}),
+				handler: testErrorHandler,
+				middlewares: []middleware.Middleware{
+					middleware.ValidateInfraspecMiddleware,
+					middleware.VerifyDirectoryMiddleware,
+				},
+			},
+			manager: NewAlertManager(),
+		},
 
 		{
 			wantErr: false,
@@ -233,6 +287,25 @@ func TestAlertManager_Deploy(t *testing.T) {
 	}
 
 	testCases := []testCase{
+		{
+			wantErr: true,
+			name:    "test when handler fails",
+			args: args{
+				ctx: context.Background(),
+				serviceDetails: models.NewServiceDetails(&models.NewServiceDetailsInput{
+					Name:           test_utils.TestServiceName,
+					Env:            test_utils.TestEnvStaging,
+					Regions:        test_utils.TestRegions,
+					GCPAlerts:      nil,
+					PromAlerts:     test_utils.TestPromAlerts,
+					OpsGenieAlerts: nil,
+				}),
+				handlers: []handlers.DeployHandler{
+					testErrorHandler,
+				},
+			},
+			manager: NewAlertManager(),
+		},
 
 		{
 			wantErr: false,

@@ -10,9 +10,6 @@ func LogHandler(ctx context.Context, input DeployHandlerInput) error {
 		if deployContext.IsComplete && deployContext.IsSuccess {
 			log.Println("successfully deployed", source)
 
-		} else {
-			log.Println("Failed deployed", source)
-
 		}
 	}
 
