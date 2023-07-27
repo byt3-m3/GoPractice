@@ -63,7 +63,7 @@ func SetUpAlertsWithHandlers(sd *models.ServiceDetails, alertTypes ...models.Ale
 			err := manager.Deploy(context.Background(), sd,
 				handlers.PrometheusAlertDeployHandler,
 				handlers.MetricHandler,
-				handlers.LogInvokeHandler,
+				handlers.LogHandler,
 			)
 			if err != nil {
 				log.Println(err)
@@ -73,7 +73,7 @@ func SetUpAlertsWithHandlers(sd *models.ServiceDetails, alertTypes ...models.Ale
 			err := manager.Deploy(context.Background(), sd,
 				handlers.GCPAlertDeployHandler,
 				handlers.MetricHandler,
-				handlers.LogInvokeHandler,
+				handlers.LogHandler,
 			)
 			if err != nil {
 				log.Println(err)
@@ -83,7 +83,7 @@ func SetUpAlertsWithHandlers(sd *models.ServiceDetails, alertTypes ...models.Ale
 			err := manager.Deploy(context.Background(), sd,
 				handlers.OpsGenieAlertDeployHandler,
 				handlers.MetricHandler,
-				handlers.LogInvokeHandler,
+				handlers.LogHandler,
 			)
 			if err != nil {
 				log.Println(err)
@@ -95,7 +95,7 @@ func SetUpAlertsWithHandlers(sd *models.ServiceDetails, alertTypes ...models.Ale
 				handlers.GCPAlertDeployHandler,
 				handlers.OpsGenieAlertDeployHandler,
 				handlers.MetricHandler,
-				handlers.LogInvokeHandler,
+				handlers.LogHandler,
 			)
 			if err != nil {
 				log.Println(err)

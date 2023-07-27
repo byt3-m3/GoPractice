@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func LogInvokeHandler(ctx context.Context, input models.DeployHandlerInput) error {
+func LogHandler(ctx context.Context, input models.DeployHandlerInput) error {
 	for source, deployContext := range input.ServiceDetails.GetDeployContextMap() {
 		if deployContext.IsComplete && deployContext.IsSuccess {
 			log.Println("successfully deployed", source)
