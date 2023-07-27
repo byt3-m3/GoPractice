@@ -8,6 +8,8 @@ var (
 	AlertTypePrometheus AlertType = "prometheus"
 	AlertTypeGCP        AlertType = "gcp"
 	AlertTypeOpsGenie   AlertType = "ops_genie"
+
+	AlertTypeAll AlertType = "all"
 )
 
 func WithAlertName(name string) NewAlertOpt {

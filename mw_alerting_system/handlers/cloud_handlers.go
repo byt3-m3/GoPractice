@@ -12,7 +12,7 @@ func PrometheusAlertDeployHandler(ctx context.Context, input models.DeployHandle
 		IsComplete: true,
 		IsSuccess:  true,
 	})
-	log.Println("prometheus deployment complete")
+	log.Println("handled prometheus deployment")
 
 	return nil
 }
@@ -25,7 +25,7 @@ func GCPAlertDeployHandler(ctx context.Context, input models.DeployHandlerInput)
 		IsSuccess:  true,
 	})
 
-	log.Println("GCP deployment complete")
+	log.Println("handled GCP deployment")
 
 	return nil
 }
@@ -37,7 +37,7 @@ func OpsGenieAlertDeployHandler(ctx context.Context, input models.DeployHandlerI
 		IsSuccess:  true,
 	})
 
-	log.Println("OpsGenie deployment complete")
+	log.Println("handled OpsGenie deployment")
 
 	return nil
 }
