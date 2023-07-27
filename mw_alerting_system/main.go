@@ -4,12 +4,15 @@ import (
 	"context"
 	"fmt"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/handlers"
+	"github.com/byt3-m3/GoPractice/mw_alerting_system/managers"
+	"github.com/byt3-m3/GoPractice/mw_alerting_system/middleware"
 	"github.com/byt3-m3/GoPractice/mw_alerting_system/models"
+	"github.com/byt3-m3/GoPractice/mw_alerting_system/post_processors"
 	"log"
 )
 
 var (
-	manager         = models.NewAlertManager()
+	manager         = managers.NewAlertManager()
 	serviceDetailsA = models.NewServiceDetails(&models.NewServiceDetailsInput{
 		Name:    "test-app-beholder-a",
 		Env:     "staging",
@@ -114,8 +117,8 @@ func SetUpAlertsWithMiddleware(sd *models.ServiceDetails, alertTypes ...models.A
 		case models.AlertTypePrometheus:
 			err := manager.DeployV2(context.Background(), sd,
 				handlers.PrometheusAlertDeployHandler,
-				models.VerifyDirectoryMiddleware,
-				models.ValidateInfraspecMiddleware,
+				middleware.VerifyDirectoryMiddleware,
+				middleware.ValidateInfraspecMiddleware,
 			)
 			if err != nil {
 				log.Fatalln(err)
@@ -124,8 +127,8 @@ func SetUpAlertsWithMiddleware(sd *models.ServiceDetails, alertTypes ...models.A
 		case models.AlertTypeGCP:
 			err := manager.DeployV2(context.Background(), sd,
 				handlers.GCPAlertDeployHandler,
-				models.VerifyDirectoryMiddleware,
-				models.ValidateInfraspecMiddleware,
+				middleware.VerifyDirectoryMiddleware,
+				middleware.ValidateInfraspecMiddleware,
 			)
 			if err != nil {
 				log.Fatalln(err)
@@ -134,8 +137,8 @@ func SetUpAlertsWithMiddleware(sd *models.ServiceDetails, alertTypes ...models.A
 		case models.AlertTypeOpsGenie:
 			err := manager.DeployV2(context.Background(), sd,
 				handlers.OpsGenieAlertDeployHandler,
-				models.VerifyDirectoryMiddleware,
-				models.ValidateInfraspecMiddleware,
+				middleware.VerifyDirectoryMiddleware,
+				middleware.ValidateInfraspecMiddleware,
 			)
 			if err != nil {
 				log.Fatalln(err)
@@ -154,14 +157,14 @@ func SetUpAlertsWithMiddlewarePostProcessing(sd *models.ServiceDetails, alertTyp
 		case models.AlertTypePrometheus:
 			err := manager.DeployV3(context.Background(), sd,
 				handlers.PrometheusAlertDeployHandler,
-				[]models.Middleware{
-					models.VerifyDirectoryMiddleware,
-					models.ValidateInfraspecMiddleware,
+				[]middleware.Middleware{
+					middleware.VerifyDirectoryMiddleware,
+					middleware.ValidateInfraspecMiddleware,
 				},
-				[]models.PostProcessor{
-					models.LoggingPostProcessor,
-					models.MetricPostProcessor,
-					models.VerifySourceDeploy,
+				[]post_processors.PostProcessor{
+					post_processors.LoggingPostProcessor,
+					post_processors.MetricPostProcessor,
+					post_processors.VerifySourceDeploy,
 				},
 			)
 			if err != nil {
@@ -171,14 +174,14 @@ func SetUpAlertsWithMiddlewarePostProcessing(sd *models.ServiceDetails, alertTyp
 		case models.AlertTypeGCP:
 			err := manager.DeployV3(context.Background(), sd,
 				handlers.GCPAlertDeployHandler,
-				[]models.Middleware{
-					models.VerifyDirectoryMiddleware,
-					models.ValidateInfraspecMiddleware,
+				[]middleware.Middleware{
+					middleware.VerifyDirectoryMiddleware,
+					middleware.ValidateInfraspecMiddleware,
 				},
-				[]models.PostProcessor{
-					models.LoggingPostProcessor,
-					models.MetricPostProcessor,
-					models.VerifySourceDeploy,
+				[]post_processors.PostProcessor{
+					post_processors.LoggingPostProcessor,
+					post_processors.MetricPostProcessor,
+					post_processors.VerifySourceDeploy,
 				},
 			)
 			if err != nil {
@@ -188,14 +191,14 @@ func SetUpAlertsWithMiddlewarePostProcessing(sd *models.ServiceDetails, alertTyp
 		case models.AlertTypeOpsGenie:
 			err := manager.DeployV3(context.Background(), sd,
 				handlers.OpsGenieAlertDeployHandler,
-				[]models.Middleware{
-					models.VerifyDirectoryMiddleware,
-					models.ValidateInfraspecMiddleware,
+				[]middleware.Middleware{
+					middleware.VerifyDirectoryMiddleware,
+					middleware.ValidateInfraspecMiddleware,
 				},
-				[]models.PostProcessor{
-					models.LoggingPostProcessor,
-					models.MetricPostProcessor,
-					models.VerifySourceDeploy,
+				[]post_processors.PostProcessor{
+					post_processors.LoggingPostProcessor,
+					post_processors.MetricPostProcessor,
+					post_processors.VerifySourceDeploy,
 				},
 			)
 			if err != nil {

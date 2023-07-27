@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-func PrometheusAlertDeployHandler(ctx context.Context, input models.DeployHandlerInput) error {
+func PrometheusAlertDeployHandler(ctx context.Context, input DeployHandlerInput) error {
 	log.Println("handling prometheus deployment", input.ServiceDetails.PromAlerts)
 	input.ServiceDetails.SetSourceContext(models.AlertTypePrometheus, models.DeployContext{
 		IsComplete: true,
@@ -17,7 +17,7 @@ func PrometheusAlertDeployHandler(ctx context.Context, input models.DeployHandle
 	return nil
 }
 
-func GCPAlertDeployHandler(ctx context.Context, input models.DeployHandlerInput) error {
+func GCPAlertDeployHandler(ctx context.Context, input DeployHandlerInput) error {
 	log.Println("handling GCP deployment", input.ServiceDetails.GCPAlerts)
 
 	input.ServiceDetails.SetSourceContext(models.AlertTypeGCP, models.DeployContext{
@@ -30,7 +30,7 @@ func GCPAlertDeployHandler(ctx context.Context, input models.DeployHandlerInput)
 	return nil
 }
 
-func OpsGenieAlertDeployHandler(ctx context.Context, input models.DeployHandlerInput) error {
+func OpsGenieAlertDeployHandler(ctx context.Context, input DeployHandlerInput) error {
 	log.Println("handling OpsGenie deployment", input.ServiceDetails.OpsGenieAlerts)
 	input.ServiceDetails.SetSourceContext(models.AlertTypeOpsGenie, models.DeployContext{
 		IsComplete: true,
