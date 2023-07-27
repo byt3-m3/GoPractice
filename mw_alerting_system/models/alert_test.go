@@ -24,3 +24,13 @@ func TestNewPrometheusAlert(t *testing.T) {
 	assert.Equal(t, AlertTypePrometheus, alertB.AlertType)
 
 }
+
+func TestNewOpsGenieAlert(t *testing.T) {
+
+	alert := NewOpsGenieAlert(WithID("1"), WithAlertName("test-ops-alert-1"), WithAlertExpr("match_this"))
+	alertB := NewOpsGenieAlert(WithTestData())
+
+	assert.Equal(t, AlertTypeOpsGenie, alert.AlertType)
+	assert.Equal(t, AlertTypeOpsGenie, alertB.AlertType)
+
+}

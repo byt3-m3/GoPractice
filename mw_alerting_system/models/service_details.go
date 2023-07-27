@@ -40,21 +40,19 @@ func NewServiceDetails(input *NewServiceDetailsInput) *ServiceDetails {
 }
 
 func (s *ServiceDetails) SetSourceContext(source AlertType, deployCtx DeployContext) {
-	_, ok := s.deployContextMap[source]
-	if ok {
-		log.Fatalln("context already set")
-	}
 
 	s.deployContextMap[source] = deployCtx
 }
 
-func (s *ServiceDetails) GetSourceContext(source AlertType) DeployContext {
+func (s *ServiceDetails) GetSourceContext(source AlertType) *DeployContext {
 	deployCtx, ok := s.deployContextMap[source]
 	if !ok {
-		log.Fatalln("context not found")
+		log.Println("context not found")
+
+		return nil
 	}
 
-	return deployCtx
+	return &deployCtx
 }
 
 func (s *ServiceDetails) GetDeployContextMap() map[AlertType]DeployContext {
