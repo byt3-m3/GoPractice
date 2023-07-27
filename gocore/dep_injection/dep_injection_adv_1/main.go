@@ -20,6 +20,8 @@ type (
 
 	defaultDetaFetcher struct {
 		client HTTPClient
+		//client *http.Client
+
 	}
 )
 
