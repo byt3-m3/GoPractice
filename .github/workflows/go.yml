@@ -25,4 +25,4 @@ jobs:
 #      run: go build -v mw_alerting_system
 
     - name: Test
-      run: go test -v mw_alerting_system -covermode=atomic
+      run: go test -v mw_alerting_system/... -covermode=atomic
