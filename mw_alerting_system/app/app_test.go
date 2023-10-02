@@ -38,7 +38,7 @@ func TestApp(t *testing.T) {
 			}
 		}}
 
-	testApp := NewApp(WithAlertManager(), WithMockMessageReader(messageReaderMock), WithDeployVersion(3))
+	testApp := NewApp(WithAlertManager(), WithMockMessageReader(messageReaderMock), WithDeployVersion(1))
 
 	if err := testApp.Run(context.Background()); err != nil {
 		log.Fatalln(err)
